@@ -1,0 +1,174 @@
+<html>
+    <head>
+        <title>Quiz</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <style>
+            body, html {
+                height: 100%;
+                margin: 0;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+            * {
+                box-sizing: border-box;
+            }
+            #wrap {
+                position: relative;
+            }
+            #bg {
+                width: 100%;
+                height: 100%;
+            }
+            #quiz {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+                background-color: rgba(255, 255, 255, 0);
+                padding: 50px;
+
+            }
+            #question, .answer, #wrong {
+                padding: 30px;
+                padding-right: 50px;
+                color: black;
+                border: 1px solid white;
+                border-radius: 10px;
+                margin-bottom: 10px;
+                margin-top: 10px;
+                background-color: rgba(255, 255, 255, 0.9);
+                cursor: pointer;
+            }
+            #question {
+                padding-top: 20px;
+                padding-bottom: 20px;
+                font-size: 25px;
+                margin-bottom: 20px;
+                cursor: auto;
+            }
+            .answer {
+                position: relative;
+            }
+            .answer div:first-child {
+                font-size: 20px;
+            }
+
+            .answer div:nth-child(2) {
+                font-size: 50px;
+                position: absolute;
+                top: 15px;
+                right: 15px;
+            }
+            .right {
+                color: red;
+            }
+            .wrong {
+                color: green;
+            }
+            #wrong {
+                font-size: 18px;
+                background-color: rgba(255, 255, 255, 0.6);
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="wrap">
+            <img id="bg" src="img/abstract-astronomy-dark-924824.jpg" alt="bg"></img>
+            <div id="quiz">
+                <div id="question"></div>
+                <div class="answer" id="A"><div></div><div><i></i></div></div>
+                <div class="answer" id="B"><div></div><div><i></i></div></div>
+                <div class="answer" id="C"><div></div><div><i></i></div></div>
+                <div class="answer" id="D"><div></div><div><i></i></div></div>
+            </div>
+        </div>
+
+        <script>
+            var arr = [
+            quiz_1 = {
+                question: '1. Thuộc tính window.innerWidth cung cấp thông tin gì về trình duyệt?',
+                A: 'A. Chiều rộng toàn bộ trình duyệt',
+                B: 'B. Chiều rộng bên trong trình duyệt',
+                C: 'C. Chiều cao toàn bộ trình duyệt',
+                D: 'D. Chiều cao bên trong trình duyệt',
+                right: 'B'
+            },
+
+            quiz_2 = {
+                question: '2. Thuộc tính window.pageXOffset cung cấp thông tin gì về trình duyệt?',
+                A: 'A. Khoảng cách document di chuyển từ góc trên bên trái.',
+                B: 'B. Khoảng cách window di chuyển từ góc trên bên trái.',
+                C: 'C. Khoảng cách document di chuyển từ góc trên bên trái theo chiều ngang.',
+                D: 'D. Khoảng cách document di chuyển từ góc trên bên trái theo chiều dọc.',
+                right: 'C'
+            },
+
+            quiz_3 = {
+                question: '3. Phương thức close() thực hiện hành động gì?',
+                A: 'A. Đóng cửa sổ hiện thời.',
+                B: 'B. Đóng tất cả cửa sổ hiện thời.',
+                C: 'C. Đóng tab hiện thời.',
+                D: 'D. Đóng tất cả tab hiện thời.',
+                right: 'A'
+            },
+
+            quiz_4 = {
+                question: '4. Phương thức window.getComputedStyle() trả về kết quả gì?',
+                A: 'A. Các thuộc tính CSS áp dụng cho một element.',
+                B: 'B. Các thuộc tính CSS áp dụng cho document.',
+                C: 'C. Các thuộc tính CSS áp dụng cho window.',
+                D: 'D. Các thuộc tính CSS thực sự áp dụng cho một element.',
+                right: 'D'
+            },
+
+            quiz_5 = {
+                question: '5. Thuộc tính nào tham chiếu đến cửa sổ mở ra cửa sổ hiện tại?',
+                A: 'A. window.opener',
+                B: 'B. window.parent',
+                C: 'C. window.navigator',
+                D: 'D. window.history',
+                right: 'A'
+            }];
+            
+            function showQuest(i) {
+                $('#question').html(arr[i].question);
+                $('#A div:first-child').text(arr[i].A);
+                $('#B div:first-child').text(arr[i].B);
+                $('#C div:first-child').text(arr[i].C);
+                $('#D div:first-child').text(arr[i].D);
+            
+                var arr_ans = ['A','B','C','D'];
+                let idx = arr_ans.indexOf(arr[i].right);
+                let right_ans = arr_ans.splice(idx,1);
+                console.log(arr_ans);
+                for (var x = 0; x < arr_ans.length; x++) {
+                    let ans_x = arr_ans[x];
+                    $('#' + ans_x).off().on('click', function() {$('#' + ans_x + ' i').addClass('fa fa-times wrong'); console.log(ans_x);});
+                };
+                    
+                $('#' + right_ans).off().on('click', function() {
+                    $('#' + right_ans + ' i').addClass('fa fa-check right');
+                    setTimeout(function() {
+                        if (i <= 3) {
+                            $('#A div:first-child').text('');
+                            $('#A i').removeClass();
+                            $('#B div:first-child').text('');
+                            $('#B i').removeClass();
+                            $('#C div:first-child').text('');
+                            $('#C i').removeClass();
+                            $('#D div:first-child').text('');
+                            $('#D i').removeClass();
+                            showQuest(i + 1);
+                        } else {
+                            window.open('congrat.html',"_self");;
+                        }
+                    },1000)
+                    });
+            }
+
+            showQuest(0);
+        </script>
+    </body>
+</html>

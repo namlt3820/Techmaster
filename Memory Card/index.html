@@ -1,0 +1,235 @@
+<html>
+    <head>
+        <title>Memory Card</title>
+        <meta charset="utf-8">
+        <style>
+            .modal {
+                position: fixed;
+                z-index: 1;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                background-color: rgba(0,0,0,0.3);
+            }
+            .modal-content {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+                background: white;
+                margin: auto;
+                padding: 20px;
+                border: 1px solid grey;
+                width: 80%;
+                text-align: center;
+                border-radius: 20px;
+                font-size: 30px;
+            }
+            .modal-content button {
+                padding: 10px;
+                font-size: 30px;
+                border-radius: 10px;
+                color: white;
+                background-color: red;
+                cursor: pointer;
+                outline: none;
+            }
+            .modal-content button:nth-child(2) {
+                margin-left: 300px;
+            }
+            .modal-content button:hover {
+                background-color: #c50d63;
+            }
+            .grid {
+                display: grid;
+                grid-gap: 30px;
+                grid-template-columns: auto auto auto auto auto;
+                justify-content: center;
+            }
+            .card {
+                position: relative;
+                display: inline-block;
+                border: 1px solid grey;
+            }
+            .card:hover {
+                box-shadow: 0px 5px 15px 9px rgba(0,0,0,0.55);
+            }
+            .card .front {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+            .card .back {
+                transform: rotateY(180deg);
+            }
+            .card .front, .card .back {
+                transition: all 0.5s;
+                backface-visibility: hidden;
+            }
+            .flipped .front{
+                transform: rotateY(180deg);
+            }
+            .flipped .back {
+                transform: rotateY(0deg);
+            }
+            .time {
+                position: fixed;
+                left:0;
+                top: 50%;
+                transform: translateY(-50%);
+                padding: 10px;
+                display: none;
+                text-align: center;
+            }
+            .time p:first-child {
+                font-size: 18px;
+            }
+            .time p:nth-child(2) {
+                font-weight: bold;
+                font-size: 40px;
+            }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div class="modal">
+            <div class="modal-content">
+                <p>In this game, you're trying to clear 20 images in 60 seconds. Are you ready?</p>
+                <div class="opt">
+                    <button type="button">I'm ready!</button>
+                    <button type="button">No, let's try harder.</button>
+                </div>
+            </div>
+        </div>
+        <div class="time">
+            <p>Time Remaining:</p>
+            <p>60</p>
+        </div>
+        <div class="content"></div>
+        <audio id="right">
+            <source src="music/right.wav" type="audio/mpeg">
+        </audio>
+        <audio id="wrong">
+            <source src="music/wrong.wav" type="audio/mpeg">
+        </audio>
+        <audio id="win">
+            <source src="music/win.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="fail">
+            <source src="music/fail.mp3" type="audio/mpeg">
+        </audio>
+        <script>
+            var arr = ['leaf','balloon','city','spiral','parrot'];
+            var current = null;
+            var remainTime = 60;
+            var count = 0;
+
+            function shuffle(arr) {
+                var currentIdx = arr.length, randomIdx, tempVal;
+                while (currentIdx !== 0) {
+                    randomIdx = Math.floor(Math.random() * currentIdx);
+                    currentIdx -= 1;
+                    tempVal = arr[currentIdx];
+                    arr[currentIdx] = arr[randomIdx];
+                    arr[randomIdx] = tempVal;
+                }
+                return arr;
+            }
+            
+            function flip(card) {
+                // Check if it's the same card
+                if ($(card).hasClass('flipped')) {
+                    $(card).css('pointer-events', 'none');
+                } else {
+                $(card).toggleClass('flipped');
+
+                // First card
+                if (!current) {
+                    current = $(card);
+                } else {
+                    // Second card
+                    var wrong = '0px 5px 15px 9px rgba(255,0,21,0.55)';
+                    var right = '0px 5px 15px 9px rgba(80,255,49,0.55)';
+                    var $cards = $(card).add(current);
+                    
+                    if (current.attr('data-name') != $(card).attr('data-name')) {
+                        document.getElementById('wrong').play();
+                        $cards.css('box-shadow', wrong);
+                        setTimeout(function() {
+                            $cards.css('box-shadow','').toggleClass('flipped').css('pointer-events', 'auto');
+                            current = null;
+                        },250);
+                    } else {
+                        count++;
+                        document.getElementById('right').play();
+                        $cards.css('box-shadow', right);
+                        setTimeout(function() {
+                        $cards.css('box-shadow','').css('opacity','0').css('pointer-events', 'none');
+                        current = null;
+                        },250);  
+                    }
+                }
+            }}; // End flip(card)
+
+            $(window).on('load',function() {
+                // Create array
+                for (i = 0; i <= 1; i++) {
+                    arr = arr.concat(arr);
+                    }   
+                shuffle(arr);
+
+                // Add content
+                var html = '<div class="grid">';
+                for (var i = 0; i < arr.length; i++) {
+                html +=
+                    '<div class="card" data-name="' + arr[i] +
+                    '" onclick=flip(this)> ' +
+                    '<div class="front"><img src="img/back.jpg"/></div>' +
+                    '<div class="back"><img src="img/' + arr[i] +
+                    '.jpg"/></div>' +
+                    '</div>';
+                }
+                html += '</div>';
+                $(".content").html(html);
+
+                // Set buttons
+                var $button_1 = $('.opt button:first-child');
+                var $button_2 = $('.opt button:nth-child(2)');
+                var $modal = $('.modal');
+                var $modal_content = $('.modal-content p');
+                var $time = $('.time p:nth-child(2)');
+
+                $button_1.on('click',function() {
+                $modal.css('display','none');
+                $('.time').css('display','block');
+                var run = setInterval(function(){
+                    remainTime--;
+                    $time.text(remainTime);
+                    if ((remainTime == 0) || (count == 10)) {
+                        clearInterval(run);
+                        $modal.css('display','block');
+                        if (count < 10) {
+                            document.getElementById('fail').play();
+                            $modal_content.text('You lost. Better luck next time buddy.').css('color','blue').css('font-weight','bold');
+                        } else {
+                            document.getElementById('win').play();
+                            $modal_content.text('You did it! Congratulation! You won!').css('font-size','50px').css('color','red').css('font-weight','bold');
+                        }
+                        $button_2.remove();
+                        $button_1.text('OK, let me play again!').on('click', function(){location.reload();});
+                    }
+                },1000);
+            });
+            $button_2.on('click',function(){
+                $modal_content.text('I see. How about clearing 20 images in 40 seconds?');
+                $button_1.text('OK, let\'s play');
+                $time.text('40');
+                remainTime = 40;
+                $button_2.remove();
+            });
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,101 @@
+<html>
+    <head>
+        <title>BT vong lap</title>
+        <meta charset="utf-8">
+        <style>
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            button {
+                font-size: 20px;
+                display: block;
+                margin: 15px 0;
+            }
+
+            div {
+                font-size: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <button type="button" onclick="giai_thua()">Tính giai thừa của một số</button>
+        <button type="button" onclick="dao_chuoi()">Đảo ngược thứ tự một chuỗi</button>
+        <button type="button" onclick="sao_chep()">Sao chép chuỗi số lên 10 lần</button>
+        <button type="button" onclick="sap_xep()">Sắp xếp thứ tự học viên</button>
+        <button type="button" onclick="nhan_doi()">Gấp đôi giá trị phần tử của mảng</button>
+        <button type="button" onclick="phan_du()">Phần dư phép chia cho 2</button>
+        <div id="demo"></div>
+        <script>
+
+            // Tinh giai thua mot so
+            function giai_thua() {
+                var x = prompt('Hãy nhập một số nguyên bạn muốn tính giai thừa của nó:');
+                var abs_x = Math.abs(x);
+                var result = 1;
+                for (var i = 1; i <= abs_x; i++) {
+                    result = result * i;
+                }
+                if (x > 0) {
+                    document.getElementById('demo').innerHTML = 'Giai thừa của ' + x + ' là: ' + result;
+                } else if (x < 0) {
+                    document.getElementById('demo').innerHTML = 'Giai thừa của ' + x + ' là: ' + '-' + result;
+                } else {
+                    document.getElementById('demo').innerHTML = 'Giai thừa của 0 là: 1';
+                }
+            }
+
+            // Dao nguoc chuoi
+            function dao_chuoi() {
+                var str = prompt('Hãy nhập một chuỗi bạn muốn đảo ngược thứ tự:').split('');
+                var arr = [];
+                var len = str.length - 1;
+                for (var i = len; i >= 0; i--) {
+                    arr.push(str[i]);
+                }
+                document.getElementById('demo').innerHTML = 'Chuỗi của bạn sau khi đảo ngược là: ' + arr.join('');
+            }
+
+            // Sao chep chuoi 10 lan
+            function sao_chep() {
+                var nums = prompt('Hãy nhập một dãy số bạn muốn sao chép 10 lần:');
+                document.getElementById('demo').innerHTML = nums;
+                for (var i = 1; i <= 9; i++) {
+                    document.getElementById('demo').innerHTML = document.getElementById('demo').innerHTML + '-' + nums;
+                }
+            }
+
+            // Sap xep thu tu hoc vien
+            function sap_xep() {
+                var arr = prompt('Hãy nhập tên danh sách học viên ngăn cách bằng dấu phẩy').split(',');
+                arr.sort();
+                document.getElementById('demo').innerHTML = 'Danh sách học viên theo thứ tự là: ';
+                for (var i = 0; i < arr.length; i++) {
+                    document.write('<p>' + (i + 1) + '. ' + arr[i] + '</p>');
+                }
+            }
+
+            // Gap doi gia tri phan tu cua mang
+            function nhan_doi() {
+                var arr = prompt('Hãy nhập dãy số bạn muốn nhân đôi giá trị mỗi phần tử:').split(',');
+                var new_arr = [];
+                for (var i = 0; i < arr.length; i++) {
+                    var x = Number(arr[i]) * 2;
+                    new_arr.push(x);
+                }
+                document.getElementById('demo').innerHTML = 'Mảng mới sau khi gấp đôi giá trị phần tử là: ' + new_arr;
+            }
+            
+            // Lay phan du khi chia phan tu mang cho 2
+            function phan_du() {
+                var arr = prompt('Hãy nhập dãy số bạn muốn lấy phần dư sau khi chia cho 2:').split(',');
+                var new_arr = [];
+                for (var i = 0; i < arr.length; i++) {
+                    var x = Number(arr[i]) % 2;
+                    new_arr.push(x);
+                }
+                document.getElementById('demo').innerHTML = 'Mảng mới sau chứa phần dư sau khi chia cho 2: ' + new_arr;
+            }
+        </script>
+    </body>
+</html>

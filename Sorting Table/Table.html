@@ -1,0 +1,158 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                font-family: Helvetica, sans-serif;
+                font-size: 20px;
+            }
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+            table {
+                width: 1000px;
+                margin: auto;
+            }
+            h1 {
+                text-align: center;
+                font-weight: 400;
+            }
+            th {
+                padding: 10px; 
+                text-align: center;
+                cursor: pointer;
+            }
+            .tdImg, .name, .publisher, .author {
+                text-align: center;
+                width: 18%;
+                font-size: 18px;
+            }
+            .price, .amount {
+                text-align: center;
+                width: 14%;
+                font-size: 18px;
+            }
+            .tdImg {
+                padding: 10px;
+            }
+            .img {
+                display: inline-block;
+                width: 75px;
+                height: 100px;
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+                transition: transform .1s;
+            }
+
+            tr:nth-child(even) {
+                background-color: #dedede;
+            }
+            .img:hover {
+                transform: scale(3);
+            }
+            .name {
+                padding: 15px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <h1>Bảng danh sách sản phẩm</h1>
+        <table id="table">
+            <tr>
+                <th>Ảnh sản phẩm (+)</th>
+                <th onclick = "sortTable('name')">Tên sản phẩm &nbsp; <i class="fa fa-sort"></i></th> 
+                <th onclick = "sortTable('publisher')">Nhà xuất bản &nbsp; <i class="fa fa-sort"></i></th>
+                <th onclick = "sortTable('author')">Tác giả &nbsp; <i class="fa fa-sort"></i></th>
+                <th onclick = "sortTable('price')">Đơn giá &nbsp; <i class="fa fa-sort"></i></th>
+                <th onclick = "sortTable('amount')">Số lượng &nbsp; <i class="fa fa-sort"></i></th>
+            </tr>
+            <tr>
+                <td class="tdImg"><div class="img" style="background-image: url('./img/1.jpg')"></div></td>
+                <td class="name">Khu Vườn Mùa Hạ</td>
+                <td class="publisher">Văn Học</td>
+                <td class="author">Kazumi Yumoto</td>
+                <td class="price">58.500</td>
+                <td class="amount">2</td>
+            </tr>
+            <tr>
+                <td class="tdImg"><div class="img" style="background-image: url('./img/2.jpg')"></div></td>
+                <td class="name">Bay Trên Tổ Chim Cúc Cu</td>
+                <td class="publisher">Văn Học</td>
+                <td class="author">Ken Kesey</td>
+                <td class="price">100.000</td>
+                <td class="amount">1</td>
+            </tr>
+            <tr>
+                <td class="tdImg"><div class="img" style="background-image: url('./img/3.jpg')"></div></td>
+                <td class="name">Chiến Binh Cầu Vồng</td>
+                <td class="publisher">Hội Nhà Văn</td>
+                <td class="author">Andrea Hirata</td>
+                <td class="price">98.000</td>
+                <td class="amount">10</td>
+            </tr>
+            <tr>
+                <td class="tdImg"><div class="img" style="background-image: url('./img/4.jpg')"></div></td>
+                <td class="name">Nhà Giả Kim</td>
+                <td class="publisher">Văn Học</td>
+                <td class="author">Paulo Coelho</td>
+                <td class="price">69.000</td>
+                <td class="amount">3</td>
+            </tr>
+            <tr>
+                <td class="tdImg"><div class="img" style="background-image: url('./img/5.jpg')"></div></td>
+                <td class="name">Suối Nguồn</td>
+                <td class="publisher">Trẻ</td>
+                <td class="author">Ayn Rand</td>
+                <td class="price">258.500</td>
+                <td class="amount">1</td>
+            </tr>
+            <tr>
+                <td class="tdImg"><div class="img" style="background-image: url('./img/6.jpg')"></div></td>
+                <td class="name">Bí Mật Của Naoko</td>
+                <td class="publisher">Thời Đại</td>
+                <td class="author">Higashino Keigo</td>
+                <td class="price">108.000</td>
+                <td class="amount">5</td>
+            </tr>
+            <tr>
+        </table>
+        <script>
+            function sortTable(rule) {
+               var table = document.getElementById('table'),
+                   rows = document.getElementsByTagName('tr'),
+                   switching = true, shouldSwitch,
+                   i, x, y;
+                
+                while (switching) {
+                    switching = false;
+                    for (i = 1; i < (rows.length - 1); i++) {
+                        shouldSwitch = false;
+                        x = rows[i].getElementsByClassName(rule)[0];
+                        y = rows[i + 1].getElementsByClassName(rule)[0];
+                        if ((rule == 'price') || (rule == 'amount')) {
+                            if (Number(x.innerHTML) > Number(y.innerHTML)) {
+                                shouldSwitch = true;
+                                break;
+                            }
+                        } else {
+                            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                        }
+                    }
+                    if (shouldSwitch) {
+                        rows[i].parentNode.insertBefore(rows[i + 1],rows[i]);
+                        switching = true;
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,98 @@
+* {
+  box-sizing: border-box;
+}
+body, html {
+  margin: 0;
+  font-family: Helvetica, sans-serif;
+  font-size: 15px;
+}
+.header {
+  background-color: #00BCD4;
+  width: 100%;
+  height: 15vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.header__title {
+  color: white;
+  font-size: 3rem;
+  font-weight: 500;
+}
+.main {
+  width: 90%;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+.list {
+  margin: 10px;
+  flex: 0 0 350px;
+}
+.list__item, .list__head, .list__add, .placeholder {
+  padding: 8px 16px;
+  border: 1px solid lightgray;
+  margin-bottom: 14px;
+  cursor: move;
+}
+.list__head {
+  text-align: center;
+  font-weight: 500;
+  font-size: 2rem;
+  cursor: initial;
+}
+.list__item {
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+.item__text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border: none;
+  background-color: inherit;
+  outline: none;
+  cursor: move;
+}
+.item__btn {
+  min-width: 70px;
+}
+.item__btn > button {
+  font-size: 1.5rem;
+  cursor: pointer;
+  background-color: inherit;
+  border: none;
+}
+.todo .item__btn > button:hover {
+  background-color: #fda48d;
+}
+.doing .item__btn > button:hover {
+  background-color: #51d4b7;
+}
+.done .item__btn > button:hover {
+  background-color: #65d0ff;
+}
+.list__add, .list__add::placeholder {
+  text-align: center;
+  font-weight: 500;
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 100%;
+}
+.list__add::placeholder {
+  color: black;
+  font-weight: 400;
+}
+.list__add:hover {
+  border: 2px solid gray;
+}
+.placeholder {
+  border: none;
+  background-color: #f1f6fa;
+  height: 3rem;
+}
+

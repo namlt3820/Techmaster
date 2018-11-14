@@ -1,0 +1,196 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            div {
+                font-family: Helvetica, sans-serif;
+                font-size: 20px;
+                font-weight:300;
+            }
+            h1, div {
+                width: 600px;
+                margin: auto;
+            }
+            h1 {
+                font-family: Helvetica;
+                text-align: center;
+                margin-bottom: 20px;
+                margin-top: 20px;
+                font-weight: 500;
+            }
+            #form {
+                border-radius: 5px;
+                background-color: #f2f2f2;
+                padding: 20px 20px 0 20px;
+            } 
+            input[type=text], input[type=tel], input[type=email], input[type=password], input[type=submit]{
+                font-size: 15px;
+                width: 100%;
+                padding: 12px 20px;
+                display: inline-block;
+                border: none;
+                border-radius: 5px;
+                outline: none;
+            }
+            input[type=text]:focus, input[type=tel]:focus, input[type=email]:focus, input[type=password]:focus {
+                border: 1px solid #555;
+            }
+            label {
+                display: inline-block;
+                margin: 10px 0 6px 0;
+            }
+            input[type=submit] {
+                background-color: #4CAF50;
+                color: white;
+                margin: 20px 0;
+                cursor: pointer;
+            }
+            input[type=submit]:hover {
+                background-color: #45a049;
+            }
+            span {
+                font-size: 17px; 
+                font-style: italic;
+                color: red;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Đăng ký thông tin thành viên</h1>
+        <div id="form">
+        <form action="Result.html" method="GET" target="_self" id="form">
+            <label for="name">Họ tên của bạn?</label><span></span><br>
+            <input type="text" name="name" id="name" placeholder="Nguyễn Văn Minh"><br>
+
+            <label for="birthday">Ngày sinh của bạn?</label><br>
+            <label for="birthday">Ngày</label>
+            <select name="day" id="birthday"></select><span></span><br>
+            <label for="month">Tháng</label>
+            <select name="month" id="month"></select><span></span><br>
+            <label for="year">Năm</label>
+            <select name="year" id="year"></select><span></span><br>
+
+            <label for="gender">Giới tính của bạn?</label><span></span><br>
+            <input type="radio" name="gender" value="Nam" id="male"> <label for="male">Nam</label>
+            <input type="radio" name="gender" value="Nữ" id="female"> <label for="female">Nữ</label>
+            <input type="radio" name="gender" value="Khác" id="other"> <label for="other">Khác</label><br>
+
+            <label for="address">Địa chỉ của bạn?</label><span></span><br>
+            <input type="text" name="address" id="address" placeholder="Tây Hồ, Hà Nội"><br>
+
+            <label for="tel">Số điện thoại của bạn?</label><span></span><br>
+            <input type="tel" name="tel" id="tel" placeholder="0988226667"><br>
+
+            <label for="fb">Địa chỉ facebook của bạn?</label><span></span><br>
+            <input type="text" name="fb" id="fb" placeholder="https://www.facebook.com/yourPage/"><br>
+
+            <label for="email">Địa chỉ email của bạn?</label><span></span><br>
+            <input type="email" name="email" placeholder="me@gmail.com" id="email"><br>
+
+            <label for="password">Mật khẩu của bạn?</label><span></span><br>
+            <input type="password" name="password" id="password" placeholder="Mật khẩu có từ 4 đến 8 ký tự, ít nhất 1 chữ hoa, chữ thường và số." id="password"><br>
+
+            <input type="submit" value="Đăng ký thành viên">
+        </form>
+        </div>
+        <script>
+            $(document).ready(function() {
+                var selectDay = '<option value="">--</option>', 
+                    selectMonth = '<option value="">--</option>', 
+                    selectYear = '<option value="">--</option>';
+                for (var i = 1; i <= 31; i++) {
+                    selectDay += '<option value="' + i + '">' + i + '</option>';
+                }
+                $('#birthday').html(selectDay);
+
+                for (var i = 1; i <= 12; i++) {
+                    selectMonth += '<option value="' + i + '">' + i + '</option>';
+                }
+                $('#month').html(selectMonth);
+                for (var i = 1900; i <= 2100; i++) {
+                    selectYear += '<option value="' + i + '">' + i + '</option>';
+                }
+                $('#year').html(selectYear);
+
+                // Validate form
+                $('#form').on('submit',function() {
+                    var isValid = true;
+                    if ($('#name').val().trim() == '') {
+                        $("label[for='name']").next('span').text(' \(* Nhập họ tên của bạn.\)');
+                        isValid = false;
+                    } else {
+                        $("label[for='name']").next('span').text('');
+                    }
+                    
+                    if ($('#birthday').val().trim() == '') {
+                        $('#birthday').next('span').text(' \(* Chọn ngày sinh của bạn.\)');
+                        isValid = false;
+                    } else {
+                        $('#birthday').next('span').text('');
+                    }
+
+                    if ($('#month').val().trim() == '') {
+                        $('#month').next('span').text(' \(* Chọn tháng sinh của bạn.\)');
+                        isValid = false;
+                    } else {
+                        $('#month').next('span').text('');
+                    }
+
+                    if ($('#year').val().trim() == '') {
+                        $('#year').next('span').text(' \(* Chọn năm sinh của bạn.\)');
+                        isValid = false;
+                    } else {
+                        $('#year').next('span').text('');
+                    }
+
+                    if (!$('#male').prop("checked") && !$('#female').prop("checked") && !$('#other').prop("checked")) {
+                        $("label[for='gender']").next('span').text(' \(* Chọn giới tính của bạn.\)');
+                        isValid = false;
+                    } else {
+                        $("label[for='gender']").next('span').text('');
+                    }
+
+                    if ($('#address').val().match(/[A-Za-z0-9'\.\-\s\,]/) == null) {
+                        $("label[for='address']").next('span').text(' \(* Địa chỉ chưa hợp lệ.\)');
+                        isValid = false;
+                    } else {
+                        $("label[for='address']").next('span').text('');
+                    }
+
+                    if ($('#tel').val().match(/^(\+[1-9][0-9]*(\([0-9]*\)|-[0-9]*-))?[0]?[1-9][0-9\- ]*$/) == null) {
+                        $("label[for='tel']").next('span').text(' \(* Số điện thoại chưa hợp lệ.\)');
+                        isValid = false;
+                    } else {
+                        $("label[for='tel']").next('span').text('');
+                    }
+
+                    if ($('#fb').val().match(/(?:https?:\/\/)?(?:www\.)?facebook\.com\/.(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-\.]*)/) == null) {
+                        $("label[for='fb']").next('span').text(' \(* Địa chỉ Facebook chưa hợp lệ.\)');
+                        isValid = false;
+                    } else {
+                        $("label[for='fb']").next('span').text('');
+                    }
+
+                    if ($('#email').val().match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/) == null) {
+                        $("label[for='email']").next('span').text(' \(* Địa chỉ Email chưa hợp lệ.\)');
+                        isValid = false;
+                    } else {
+                        $("label[for='email']").next('span').text('');
+                    }
+
+                    if ($('#password').val().match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$/) == null) {
+                        $("label[for='password']").next('span').text(' \(* Mật khẩu chưa hợp lệ.\)');
+                        isValid = false;
+                    } else {
+                        $("label[for='password']").next('span').text('');
+                    }          
+                    return isValid;
+                });
+            });
+        </script>
+    </body>
+</html>

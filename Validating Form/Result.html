@@ -1,0 +1,101 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                font-family: Helvetica, sans-serif;
+            }
+            div {
+                font-family: Helvetica, sans-serif;
+                font-size: 20px;
+                font-weight:300;
+                border-radius: 5px;
+                background-color: #f2f2f2;
+                padding: 20px 0 20px 30px;
+                width: 600px;
+                margin: auto;
+            }
+            h1 {
+                width: 500px;
+                margin: auto;
+                font-family: Helvetica;
+                text-align: center;
+                margin-bottom: 20px;
+                margin-top: 20px;
+                font-weight: 500;
+            }
+            h2 {
+                font-family: Helvetica;
+                text-align: center;
+                margin-bottom: 20px;
+                margin-top: 20px;
+                font-weight: 500;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Bạn đã đăng ký thông tin thành viên thành công.</h1>
+        <h2>Các thông tin bạn đã đăng ký bao gồm:</h2>
+        <div>
+            <p id="name">Họ tên của bạn là: <span></span></p>
+            <p id="birthday">Ngày sinh của bạn là: <span></span>/<span></span>/<span></span></p>
+            <p id="gender">Giới tính của bạn là: <span></span></p>
+            <p id="address">Địa chỉ của bạn là: <span></span></p>
+            <p id="tel">Số điện thoại của bạn là: <span></span></p>
+            <p id="fb">Facebook của bạn là: <span></span></p>
+            <p id="mail">Email của bạn là: <span></span></p>
+            <p id="password">Mật khẩu của bạn là: <span></span></p>
+        </div>
+        <script>
+            $(document).ready(function() {
+                var url = decodeURIComponent(window.location.search.substring(1));
+                var urlQueries = url.split('&');
+                var urlQueriesArr = [];
+                for (var i = 0; i < urlQueries.length; i++) {
+                    urlQueriesArr.push(urlQueries[i].split('='));
+                }
+                for (var i = 0; i < urlQueriesArr.length; i++) {
+                    var key = urlQueriesArr[i][0];
+                    var value = urlQueriesArr[i][1];
+                    value = value.replace(/\+/g,' ');
+                    switch (key) {
+                        case 'name':
+                        $('#name span').html(value);
+                        break;
+                        case 'day':
+                        $('#birthday span:first-child').html(value);
+                        break;
+                        case 'month':
+                        $('#birthday span:nth-child(2)').html(value);
+                        break;
+                        case 'year':
+                        $('#birthday span:nth-child(3)').html(value);
+                        break;
+                        case 'gender':
+                        $('#gender span').html(value);
+                        break;
+                        case 'address':
+                        $('#address span').html(value);
+                        break;
+                        case 'tel':
+                        $('#tel span').html(value);
+                        break;
+                        case 'fb':
+                        $('#fb span').html(value);
+                        break;
+                        case 'email':
+                        $('#mail span').html(value);
+                        break;
+                        case 'password':
+                        $('#password span').html(value);
+                        break;
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,182 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            
+            table, td {
+                font-size: 30px;
+                padding: 20px;
+                border: 1px solid black;
+                text-align: center;
+                border-radius: 15px;
+            }
+            table {
+                border-spacing: 15px;
+                table-layout: fixed;
+                margin: auto;
+                margin-top: 50px;
+                background-color:	#cae0f4;
+            }
+            td {
+                cursor: pointer;
+            }
+            #screen {
+                height: 70px;
+                text-align: right;
+                color: azure;
+                background-color: 	#6798d3;
+            }
+            .sign, #equal {
+                background-color: #fff28c;
+            }
+            .num, #clear, #negative, #square {
+                background-color:#dad5cd;
+            }
+            .num:hover, #clear:hover, #negative:hover, #square:hover  {
+                background-color: #eceadf;
+            }
+        </style>        
+    </head>
+    <body>
+        <table>
+            <tr>
+                <td id="screen" colspan="4">0</td>
+            </tr>
+            <tr>
+                <td id="clear">AC</td>
+                <td id="negative">+/-</td>
+                <td id="square">&nbsp;&nbsp;²&nbsp;&nbsp;</td>
+                <td class="sign" data-sign="÷">&nbsp;÷&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="num" data-num="7">7</td>
+                <td class="num" data-num="8">8</td>
+                <td class="num" data-num="9">9</td>
+                <td class="sign" data-sign="*">*</td>
+            </tr>
+            <tr>
+                <td class="num" data-num="4">4</td>
+                <td class="num" data-num="5">5</td>
+                <td class="num" data-num="6">6</td>
+                <td class="sign" data-sign="-">-</td>
+            </tr> 
+            <tr>
+                <td class="num" data-num="1">1</td>
+                <td class="num" data-num="2">2</td>
+                <td class="num" data-num="3">3</td>
+                <td class="sign" data-sign="+">+</td>                
+            </tr>     
+            <tr>
+                <td class="num" colspan="2" data-num="0">0</td>
+                <td class="num" data-num=".">.</td>
+                <td id="equal">=</td>
+            </tr>                                     
+        </table>
+    <script>
+        var select = function(element) {
+            if (element.charAt(0) == '#') {
+                return document.querySelector(element);
+            } else {
+                return document.querySelectorAll(element);
+            }
+        }
+
+        var screen = select('#screen'),
+            clear = select('#clear'),
+            equal = select('#equal'),
+            negative = select('#negative'),
+            square = select('#square');
+            nums = select('.num'),
+            signs = select('.sign'),
+            oldNum = '',
+            currentNum = '',
+            resultNum = '',
+            sign = '',
+            result = '';
+        
+        // Add number
+        for (var i = 0; i < nums.length; i++) {
+            nums[i].onclick = function() {
+            if(resultNum) {
+                resultNum = '';
+                currentNum = this.getAttribute('data-num');
+            } else {
+                currentNum += this.getAttribute('data-num');
+            }
+            screen.innerHTML = oldNum + ' ' + sign + ' ' + currentNum;
+        };
+        }
+
+        // Add sign
+        for (var i = 0; i < signs.length; i++) {
+            signs[i].onclick = function() {
+            if (!(oldNum == '') && (currentNum == '')) {
+                return;
+            } else {
+                oldNum = currentNum;
+                currentNum = '';
+                sign = this.getAttribute('data-sign');
+                screen.innerHTML = oldNum + ' ' + sign;
+            }
+        };
+        }
+        
+        // Equal button
+        equal.onclick = function() {
+            oldNum = parseFloat(oldNum)
+            currentNum = parseFloat(currentNum);
+            switch (sign) {
+                case '+':
+                resultNum = oldNum + currentNum;
+                break;
+                
+                case '-':
+                resultNum = oldNum - currentNum;
+                break;
+
+                case '*':
+                resultNum = oldNum * currentNum;
+                break;
+
+                case '÷':
+                resultNum = oldNum / currentNum;
+                break;
+
+                default:
+                resultNum = currentNum;
+            }
+
+            if (isNaN(resultNum)) {
+                resultNum = 'Not a Number';
+            }
+            screen.innerHTML = resultNum;
+            oldNum = 0;
+            currentNum = resultNum;
+        }
+
+        // Clear button
+        clear.onclick = function() {
+            oldNum = '';
+            currentNum = '';
+            screen.innerHTML = '0';
+            sign = '';
+        }
+
+        // Negative button
+        negative.onclick = function() {
+            if (currentNum >= 0) {
+                currentNum = currentNum - 2 * currentNum;
+            } else {
+                currentNum = Math.abs(currentNum);
+            }
+            screen.innerHTML = currentNum;
+        }
+
+        // Square button
+        square.onclick = function() {
+            currentNum = currentNum * currentNum;
+            screen.innerHTML = currentNum;
+        }
+    </script>
+    </body>
+</html>
