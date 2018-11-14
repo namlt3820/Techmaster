@@ -4,149 +4,117 @@
     </head>
     <body>
         <script>
-            document.write(printTrigangle(9));
-            document.write('<br><br><br>');
-            document.write(printEmptyRectangle(11, 7));
-            document.write('<br><br><br>');
-            document.write(printSpecialTrigangle(9));
-            document.write('<br><br><br>');
-            document.write(printX(9));
-            document.write('<br><br><br>');
-            document.write(printButterfly(9));
+          // Set up common objects
+          var star = " * ", 
+              space = ' ' + '&nbsp;' + '&nbsp;' + ' ';
 
-            // Bài 1. Viết funciton printTrigangle(n), với n là số integer > 2, in ra màn hình 1 hình tam giác vuông cân có kích thước n.
-            function printTrigangle(n) {
-                var str = '';
-                for (var line = 1; line <= n; line++) {
-                    for (var dot = 1; dot <= line; dot++) {
-                        str += ' * ';
-                    }
-                    str += '<br/>';
-                }
-                return str;
+          function drawingLine(obj, limit, char) {   
+            for (var i = 1; i <= limit; i += 1) {
+              obj.str += char;
             }
-            
-            // Bài 2. Viết function printEmptyRectangle(a, b), với a và b là 2 số integer > 3, in ra một hình chữ nhật rỗng có kích thước a x b.
-            function printEmptyRectangle(a, b) {
-                var str = '';
-                var space = '';
-                for (var i = 2; i < a; i++) {
-                    space += ' ' + '&nbsp;' + '&nbsp;' + ' ';
-                }
-                for (var line = 1; line <= b; line++) {
-                    if ((line == 1) || (line == b)) {
-                        for (var dot = 1; dot <= a; dot++) {
-                            str += ' * ';
-                        }
-                    } else {
-                        str += ' * ' + space + ' * ';
-                    }
-                    str += '<br/>';
-                }
-                return str;
-            }
-            
+          }
 
-            // Bài 3. Viết function printSpecialTrigangle(n), với n là số integer > 1, in ra hình tam giác cân ngược với chiều cao bằng n.
-            function printSpecialTrigangle(n) {
-                var bottom = (2 * n) - 1;
-                var str = '';
-                var space = ' ' + '&nbsp;' + '&nbsp;' + ' ';
-                for (var line = 1; line <= n; line++) {
-                    for (var dot = 1; dot < line; dot++) {
-                        str += space;
-                    }
-                    for (var dot = 1; dot <= bottom; dot++) {
-                        str += ' * ';
-                    }
-                    bottom = bottom - 2;
-                    str += '<br/>';
-                }
-                return str;
+          // Bài 1. Viết funciton printTrigangle(n), với n là số integer > 2, in ra màn hình 1 hình tam giác vuông cân có kích thước n.
+          function printTrigangle(n) {
+            var obj = {str: ""};
+            for (var line = 1; line <= n; line++) {
+              drawingLine(obj, line, star);  
+              obj.str += '<br/>';
             }
+            return obj.str;
+          }
             
-            // Bài 4. Viết function printX(n), với n là số integer > 3 và là số lẻ, in ra hình chữ X có chiều cao bằng n
-            function printX(n) {
-                var str = '';
-                var space =  ' ' + '&nbsp;' + '&nbsp;' + ' ';
-                var space_1;
-                var space_2;
-                for (var line = 1; line <= n; line++) {
-                    space_1 = line - 1;
-                    space_2 = n - line;
-                    if (space_1 < space_2) {
-                        for (var dot = 1; dot <= space_1; dot++) {
-                            str += space;
-                        }
-                        str += ' * ';
-                        for (var dot = 1; dot <= (space_2 - space_1 - 1); dot++) {
-                            str += space;
-                        }
-                        str += " * ";
-                        
-                    } else if (space_1 == space_2) {
-                        for (var dot = 1; dot <= space_1; dot++) {
-                            str += space;
-                        }
-                        str += ' * ';
-                        
-                    } else {
-                        for (var dot = 1; dot <= space_2; dot++) {
-                            str += space;
-                        }
-                        str += ' * '; 
-                        for (var dot = 1; dot <= (space_1 - space_2 - 1); dot++) {
-                            str += space;
-                        }
-                        str += ' * ';
-                        
-                    }
-                    str += '<br/>'
-                }
-                return str;
+          // Bài 2. Viết function printEmptyRectangle(a, b), với a và b là 2 số integer > 3, in ra một hình chữ nhật rỗng có kích thước a x b.
+          function printEmptyRectangle(a, b) {
+            var obj = {str: ""};
+            var space = '';
+            for (var i = 2; i < a; i++) {
+                space += ' ' + '&nbsp;' + '&nbsp;' + ' ';
             }
-            
-            // Bài 5. Viết function printButterfly(n), với n là số integer > 3 và là số lẻ, in ra hình con bướm có chiều cao bằng n.
-            function printButterfly(n) {
-                var str = '';
-                var space =  ' ' + '&nbsp;' + '&nbsp;' + ' ';
-                var space_1;
-                var space_2;
-                for (var line = 1; line <= n; line++) {
-                    space_1 = line - 1;
-                    space_2 = n - line;
-                    if (space_1 < space_2) {
-                        for (var dot = 1; dot <= space_1 + 1; dot++) {
-                            str += ' * ';
-                        }
-                        for (var dot = 1; dot <= (space_2 - space_1 - 1); dot++) {
-                            str += space;
-                        }
-                        for (var dot = 1; dot <= (n - space_2); dot++) {
-                            str += " * ";
-                        }
-                        
-                    } else if (space_1 == space_2) {
-                        for (var dot = 1; dot <= n; dot++) {
-                            str +=  " * ";
-                        }
-                        
-                    } else {
-                        for (var dot = 1; dot <= space_2 + 1; dot++) {
-                            str +=  " * ";
-                        }
-                        for (var dot = 1; dot <= (space_1 - space_2 - 1); dot++) {
-                            str += space;
-                        }
-                        for (var dot = 1; dot <= (n - space_1); dot++) {
-                            str += " * ";
-                        }
-                    }
-                    str += '<br/>'
+            for (var line = 1; line <= b; line++) {
+                if ((line == 1) || (line == b)) {
+                  drawingLine(obj, a, star);
+                } else {
+                  obj.str += star + space + star;
                 }
-                return str;
+                obj.str += '<br/>';
             }
-            
+            return obj.str;
+          }
+
+          // Bài 3. Viết function printSpecialTrigangle(n), với n là số integer > 1, in ra hình tam giác cân ngược với chiều cao bằng n.
+          function printSpecialTrigangle(n) {
+            var bottom = (2 * n) - 1;
+            var obj = {str: ''};
+            for (var line = 1; line <= n; line++) {
+              drawingLine(obj, line, space);
+              drawingLine(obj, bottom, star);
+              bottom = bottom - 2;
+              obj.str += '<br/>';
+            }
+            return obj.str;
+          }
+          
+          // Bài 4. Viết function printX(n), với n là số integer > 3 và là số lẻ, in ra hình chữ X có chiều cao bằng n
+          function printX(n) {
+            var obj = {str: ''};
+            var space_1, space_2;
+            for (var line = 1; line <= n; line++) {
+              space_1 = line - 1;
+              space_2 = n - line;
+              if (space_1 < space_2) {
+                drawingLine(obj, space_1, space);
+                obj.str += star;
+                drawingLine(obj, space_2 - space_1 - 1, space);
+                obj.str += star;  
+              } else if (space_1 == space_2) {
+                drawingLine(obj, space_1, space);
+                obj.str += star;
+              } else {
+                drawingLine(obj, space_2, space);
+                obj.str += star;
+                drawingLine(obj, space_1 - space_2 - 1, space);
+                obj.str += star;
+              }
+              obj.str += '<br/>'
+            }
+            return obj.str;
+          }
+          
+          // Bài 5. Viết function printButterfly(n), với n là số integer > 3 và là số lẻ, in ra hình con bướm có chiều cao bằng n.
+          function printButterfly(n) {
+            var obj = {str: ''};
+            var space_1, space_2;
+            for (var line = 1; line <= n; line++) {
+              space_1 = line - 1;
+              space_2 = n - line;
+
+              if (space_1 < space_2) {
+                drawingLine(obj, space_1 + 1, star);
+                drawingLine(obj, space_2 - space_1 - 1, space);
+                drawingLine(obj, n - space_2, star);
+              } else if (space_1 == space_2) {
+                drawingLine(obj, n, star);  
+              } else {
+                drawingLine(obj, space_2 + 1, star);
+                drawingLine(obj, space_1 - space_2 - 1, space);
+                drawingLine(obj, n - space_1, star);
+              }
+              obj.str += '<br/>'
+            }
+            return obj.str;
+          }
+          
+          // Running
+          document.write(printTrigangle(9));
+          document.write('<br><br><br>');
+          document.write(printEmptyRectangle(11, 7));
+          document.write('<br><br><br>');
+          document.write(printSpecialTrigangle(9));
+          document.write('<br><br><br>');
+          document.write(printX(9));
+          document.write('<br><br><br>');
+          document.write(printButterfly(9)); 
         </script>
     </body>
 </html>
